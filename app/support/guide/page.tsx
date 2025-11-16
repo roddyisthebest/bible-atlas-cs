@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Search, MapPin, Star, Home } from "lucide-react";
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useTranslation } from "@/lib/i18n";
+import { useTranslation, translations } from "@/lib/i18n";
 import LanguageToggle from "@/components/LanguageToggle";
 import {
   regionTypeKeys,
@@ -161,9 +161,11 @@ export default function GuidePage() {
                 </h2>
               </div>
               <ul className="space-y-2 text-gray-600">
-                {t("bibleStudyTips").map((tip, index) => (
-                  <li key={index}>• {tip}</li>
-                ))}
+                {(translations[language].bibleStudyTips as string[]).map(
+                  (tip, index) => (
+                    <li key={index}>• {tip}</li>
+                  )
+                )}
               </ul>
             </div>
 
@@ -172,9 +174,11 @@ export default function GuidePage() {
                 {t("educationalUse")}
               </h3>
               <ul className="space-y-2 text-gray-600">
-                {t("educationalTips").map((tip, index) => (
-                  <li key={index}>• {tip}</li>
-                ))}
+                {(translations[language].educationalTips as string[]).map(
+                  (tip, index) => (
+                    <li key={index}>• {tip}</li>
+                  )
+                )}
               </ul>
             </div>
 
@@ -183,9 +187,11 @@ export default function GuidePage() {
                 {t("personalResearch")}
               </h3>
               <ul className="space-y-2 text-gray-600">
-                {t("personalResearchTips").map((tip, index) => (
-                  <li key={index}>• {tip}</li>
-                ))}
+                {(translations[language].personalResearchTips as string[]).map(
+                  (tip, index) => (
+                    <li key={index}>• {tip}</li>
+                  )
+                )}
               </ul>
             </div>
 
@@ -194,9 +200,11 @@ export default function GuidePage() {
                 {t("advancedFeatures")}
               </h3>
               <ul className="space-y-2 text-gray-600">
-                {t("advancedTips").map((tip, index) => (
-                  <li key={index}>• {tip}</li>
-                ))}
+                {(translations[language].advancedTips as string[]).map(
+                  (tip, index) => (
+                    <li key={index}>• {tip}</li>
+                  )
+                )}
               </ul>
             </div>
           </TabsContent>

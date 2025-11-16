@@ -544,7 +544,7 @@ export const translations = {
   },
 };
 
-export function getTranslation(key: string, lang: Language = "en"): string {
+export function getTranslation(key: string, lang: Language = "en"): any {
   const keys = key.split(".");
   let value: any = translations[lang];
 
