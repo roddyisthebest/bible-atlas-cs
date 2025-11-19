@@ -74,12 +74,11 @@ export default function SupportPage() {
               <p className="text-gray-500 leading-relaxed mb-6">
                 {t('contactDescription')}
               </p>
-              <Button 
-                disabled 
-                className="px-6 py-2 bg-gray-400 cursor-not-allowed"
-              >
-                {t('contactWriteComingSoon')}
-              </Button>
+              <Link href="/support/contact">
+                <Button className="px-6 py-2 bg-gray-900 hover:bg-gray-800">
+                  {t('contactWrite')}
+                </Button>
+              </Link>
             </div>
 
             <div className="text-center">
