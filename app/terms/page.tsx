@@ -6,19 +6,38 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/i18n";
 import LanguageToggle from "@/components/LanguageToggle";
 
+import { useSearchParams, useRouter } from "next/navigation";
+import { useEffect } from "react";
+
 export default function TermsPage() {
   const { language, setLanguage } = useLanguage();
   const { t } = useTranslation(language);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  useEffect(() => {
+    const langParam = searchParams.get('lang') as 'ko' | 'en';
+    if (langParam && (langParam === 'ko' || langParam === 'en')) {
+      setLanguage(langParam);
+    }
+  }, [searchParams, setLanguage]);
+
+  const handleLanguageChange = (newLang: 'ko' | 'en') => {
+    setLanguage(newLang);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('lang', newLang);
+    router.push(`/terms?${params.toString()}`);
+  };
 
   return (
     <div className="min-h-screen bg-white">
       <div className="container mx-auto px-4 pt-8">
         <div className="flex justify-between items-center">
-          <Link href="/" className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900">
+          <Link href={`/?lang=${language}`} className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900">
             <Home className="h-4 w-4" />
             {t("backToHome")}
           </Link>
-          <LanguageToggle currentLang={language} onLanguageChange={setLanguage} />
+          <LanguageToggle currentLang={language} onLanguageChange={handleLanguageChange} />
         </div>
       </div>
       

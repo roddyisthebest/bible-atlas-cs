@@ -16,15 +16,34 @@ import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/i18n";
 import LanguageToggle from "@/components/LanguageToggle";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
   const { language, setLanguage } = useLanguage();
   const { t } = useTranslation(language);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  useEffect(() => {
+    const langParam = searchParams.get('lang') as 'ko' | 'en';
+    if (langParam && (langParam === 'ko' || langParam === 'en')) {
+      setLanguage(langParam);
+    }
+  }, [searchParams, setLanguage]);
+
+  const handleLanguageChange = (newLang: 'ko' | 'en') => {
+    setLanguage(newLang);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('lang', newLang);
+    router.push(`/?${params.toString()}`);
+  };
+
   return (
     <div className="min-h-screen bg-white">
       {/* Language Toggle */}
       <div className="container mx-auto px-4 pt-8 flex justify-end">
-        <LanguageToggle currentLang={language} onLanguageChange={setLanguage} />
+        <LanguageToggle currentLang={language} onLanguageChange={handleLanguageChange} />
       </div>
 
       {/* Hero Section */}
@@ -52,12 +71,12 @@ export default function Home() {
           >
             {t("downloadAppComingSoon")}
           </Button>
-          <Link href="/support" className="w-full sm:w-auto">
+          <Link href={`/support?lang=${language}`} className="w-full sm:w-auto">
             <Button className="w-full px-8 py-3 text-base font-medium bg-gray-900 hover:bg-gray-800">
               {t("support")}
             </Button>
           </Link>
-          <Link href="/terms" className="w-full sm:w-auto">
+          <Link href={`/terms?lang=${language}`} className="w-full sm:w-auto">
             <Button
               variant="outline"
               className="w-full px-8 py-3 text-base font-medium border-gray-300 text-gray-700 hover:bg-gray-50"
