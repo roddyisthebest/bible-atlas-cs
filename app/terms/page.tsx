@@ -6,31 +6,22 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "@/lib/i18n";
 import LanguageToggle from "@/components/LanguageToggle";
 
-import { useSearchParams, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import LanguageProvider from "@/components/LanguageProvider";
+import { useRouter } from "next/navigation";
 
 export default function TermsPage() {
   const { language, setLanguage } = useLanguage();
   const { t } = useTranslation(language);
-  const searchParams = useSearchParams();
   const router = useRouter();
-
-  useEffect(() => {
-    const langParam = searchParams.get('lang') as 'ko' | 'en';
-    if (langParam && (langParam === 'ko' || langParam === 'en')) {
-      setLanguage(langParam);
-    }
-  }, [searchParams, setLanguage]);
 
   const handleLanguageChange = (newLang: 'ko' | 'en') => {
     setLanguage(newLang);
-    const params = new URLSearchParams(searchParams.toString());
-    params.set('lang', newLang);
-    router.push(`/terms?${params.toString()}`);
+    router.push(`/terms?lang=${newLang}`);
   };
 
   return (
     <div className="min-h-screen bg-white">
+      <LanguageProvider />
       <div className="container mx-auto px-4 pt-8">
         <div className="flex justify-between items-center">
           <Link href={`/?lang=${language}`} className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900">
